@@ -8,18 +8,27 @@ using std::string;
 using std::vector;
 
 class Int{
+
+    bool devide2(string& n);
+
+    void getBinary(string num);
+
+    public:
     vector<bool>bin;
     size_t bin_length;
     size_t dec_length;
     size_t wight;
 
     
-    bool devide2(string& n);
 
-    void getBinary(string num);
 
-    public:
 
+
+    const Int& operator+(const Int& integer);
+    const Int& operator-(const Int& integer);
+    const Int& operator*(const Int& integer);
+    const Int& operator/(const Int& integer);
+    
     
     vector<bool>getBin();
 

@@ -43,4 +43,19 @@ Int::Int(string num){
     getBinary(num);
 }
 
+const Int& Int::operator+(const Int& integer){
+
+}
+
+const Int& Int::operator-(const Int& integer){
+    
+}
+
+const Int& Int::operator*(const Int& integer){
+    
+}
+
+const Int& Int::operator/(const Int& integer){
+    
+}
 
