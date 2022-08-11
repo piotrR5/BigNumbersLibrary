@@ -18,7 +18,10 @@
 using std::string;
 using std::vector;
 
-
+struct Bin{
+    bool sign;
+    vector <bool> binnum;
+};
 
 class Int{
 
@@ -27,8 +30,7 @@ class Int{
     void getBinary(string num);
 
     public:  
-    vector<bool>bin;
-    bool sign;
+    Bin bin;
     size_t bin_length;
     size_t dec_length;
     Int operator+(Int inte);
@@ -36,13 +38,13 @@ class Int{
     const Int& operator*(const Int& integer);
     const Int& operator/(const Int& integer);
     
-    void resize(size_t size);
+    void resize(size_t size, bool sign);
     vector<bool>getBin();
 
     string binToDec();
 
     Int(string num);
-    Int(vector<bool>binary);
+    Int(vector<bool>binary, bool sign);
     //Int(const Int& integer);
     Int(const Int& integer);
  };
