@@ -33,10 +33,10 @@ class Int{
     Bin bin;
     size_t bin_length;
     size_t dec_length;
-    Int operator+(Int inte);
-    const Int& operator-(const Int& integer);
-    const Int& operator*(const Int& integer);
-    const Int& operator/(const Int& integer);
+    Int operator+(Int integer);
+    Int operator-(Int integer);
+    Int operator*(Int inte);
+    Int operator/(Int inte);
     
     void resize(size_t size, bool sign);
     vector<bool>getBin();

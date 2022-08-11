@@ -164,15 +164,42 @@ Int Int::operator+(Int inte){
     return returned;
 }
 
-const Int& Int::operator-(const Int& integer){
+Int Int::operator-(Int inte){
+    if(bin.binnum.size() > inte.bin.binnum.size()){
+        inte.resize(bin.binnum.size(), bin.sign);
+    }
+    else if(bin.binnum.size() < inte.bin.binnum.size()){
+        resize(inte.bin.binnum.size(), bin.sign);
+    }
+
+    Int returned(inte.bin.binnum, inte.bin.sign);
+
+    bool temp=0;
+
+    std::cout<<"Size of the first Int: "<<bin.binnum.size()<<std::endl;
+    std::cout<<"Size of the second Int: "<<inte.bin.binnum.size()<<std::endl;
+    std::cout<<"Size of the returned Int: "<<returned.bin.binnum.size()<<std::endl;
+    std::cout<<std::endl;
+
+    int32_t abc=returned.bin.binnum.size()-1;
+
+    // if(bin[abc]==1 && inte.bin[abc]==1){
+    //     temp=1;
+    // }
+
+    inte.bin.sign!=inte.bin.sign;
+    reverse_num(inte.bin.binnum);
+
+    return (*this)+inte;
+
+
+}
+
+Int Int::operator*(Int integer){
     
 }
 
-const Int& Int::operator*(const Int& integer){
-    
-}
-
-const Int& Int::operator/(const Int& integer){
+Int Int::operator/(Int integer){
     
 }
 
