@@ -7,6 +7,8 @@
 //     return stream;
 // }
 
+
+
 bool Int::devide2(string& n){
     string ret(n.size(),'0');
     bool returned = (n[n.size()-1]-48)%2;
@@ -41,10 +43,91 @@ vector<bool> Int::getBin(){
 
 Int::Int(string num){
     getBinary(num);
+    int tsize=bin.size();
+    int foo=log2(tsize);
+    int newSize=pow(2, foo+1)-tsize;
+    while(newSize--){
+        bin.emplace(bin.begin(), false);
+    }
+
+    bin_length=bin.size();
 }
 
-const Int& Int::operator+(const Int& integer){
+Int::Int(std::vector<bool>binary){
+    bin=binary;
+    bin_length=bin.size();
+}
 
+Int::Int(const Int& integer){
+    bin=integer.bin;
+    bin_length=bin.size();
+}
+
+void Int::resize(size_t size){
+
+    if(size>bin.size()){
+        int newSize=size-bin.size();
+        while(newSize--){
+            bin.emplace(bin.begin(), false);
+        }
+        bin_length=bin.size();
+    }
+}
+
+Int& Int::operator+(Int inte){
+    //std::cout<<"Size of the first Int: "<<bin.size()<<std::endl;
+    //std::cout<<"Size of the second Int: "<<inte.bin.size()<<std::endl;
+    //std::cout<<std::endl;
+
+    if(bin.size() > inte.bin.size()){
+        inte.resize(bin.size());
+    }
+    else if(bin.size() < inte.bin.size()){
+        resize(inte.bin.size());
+    }
+
+    Int returned(inte.bin);
+
+    bool temp=0;
+
+    std::cout<<"Size of the first Int: "<<bin.size()<<std::endl;
+    std::cout<<"Size of the second Int: "<<inte.bin.size()<<std::endl;
+    std::cout<<"Size of the returned Int: "<<returned.bin.size()<<std::endl;
+    std::cout<<std::endl;
+
+    for(int32_t i=returned.bin.size()-1;i>=0;i--){
+        if(bin[i]==true && inte.bin[i]==true){
+            if(temp){
+                returned.bin[i]=true;
+                temp=true;
+            }else{
+                returned.bin[i]=false;
+                temp=false;
+            }
+        }
+        else if(bin[i]==true && inte.bin[i]==false ||
+                bin[i]==false && inte.bin[i]==true){
+            if(temp){
+                returned.bin[i]=false;
+                temp=true;
+            }else{
+                returned.bin[i]=true;
+                temp=false;
+            }
+        }
+        else if(bin[i]==false && inte.bin[i]==false){
+            if(temp){
+                returned.bin[i]=true;
+                temp=false;
+            }else{
+                returned.bin[i]=false;
+                temp=false;
+            }
+        }
+        std::cout<<i<<std::endl;
+    }
+    std::cout<<"TU JESTEM";
+    return returned;
 }
 
 const Int& Int::operator-(const Int& integer){
