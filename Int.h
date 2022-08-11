@@ -28,9 +28,10 @@ class Int{
 
     public:  
     vector<bool>bin;
+    bool sign;
     size_t bin_length;
     size_t dec_length;
-    Int& operator+(Int inte);
+    Int operator+(Int inte);
     const Int& operator-(const Int& integer);
     const Int& operator*(const Int& integer);
     const Int& operator/(const Int& integer);
@@ -42,5 +43,6 @@ class Int{
 
     Int(string num);
     Int(vector<bool>binary);
+    //Int(const Int& integer);
     Int(const Int& integer);
  };
