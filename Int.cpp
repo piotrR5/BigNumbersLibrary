@@ -151,10 +151,46 @@ Int& Int::operator-(Int inte){
 }
 
 Int Int::operator*(Int integer){
-    
+    return *this;
 }
 
 Int Int::operator/(Int integer){
-    
+    return *this;
+}
+
+bool Int::operator>(Int integer){
+    return false;
+}
+
+bool Int::operator<(Int integer){
+    return false;
+}
+
+bool Int::operator>=(Int integer){
+    return false;
+}
+
+bool Int::operator<=(Int integer){
+    return false;
+}
+
+bool Int::operator==(Int integer){
+    if(bin.sign != integer.bin.sign)return false;
+
+
+    if(bin.binnum.size() > integer.bin.binnum.size()){
+        integer.resize(bin.binnum.size(), bin.sign);
+    }
+    else if(bin.binnum.size() < integer.bin.binnum.size()){
+        resize(integer.bin.binnum.size(), bin.sign);
+    }
+
+    for(int i=0;i<bin.binnum.size();i++){
+        if(bin.binnum[i]!=integer.bin.binnum[i])return false;
+    }
+    return true;
+}
+bool Int::operator!=(Int integer){
+    return !(*this==integer);
 }
 
