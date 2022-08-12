@@ -3,6 +3,7 @@
 #include <iostream>
 #include <algorithm>
 #include <cmath>
+#include <fstream>
 
 #define INT128SIZE 128
 #define INT256SIZE 256
@@ -28,11 +29,14 @@ class Int{
     bool devide2(string& n);
 
     void getBinary(string num);
+    std::string& loadPowOf2(int exp);
+    void addDec(std::string& str1, std::string& str2);
 
     public:  
     mutable Bin bin;
     size_t bin_length;
     size_t dec_length;
+    std::string getDec();
     Int& operator+(Int integer);
     Int& operator-(Int integer);
 

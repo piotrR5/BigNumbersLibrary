@@ -44,12 +44,15 @@ void debugInt(const Int& i){
 
     // debugInt(integer+integer2+int2+int3);
 
-    Int int1("100");
-    Int int2("101");
+    Int int1("24543");
+    Int int2("-11346523524");
     debugInt({int1,int2});
     //debugInt(int2);
-    std::cout<<"Equal? "<<(int1==int2)<<std::endl;
-    std::cout<<"Diffrent? "<<(int1!=int2)<<std::endl;
+    // std::cout<<"Equal? "<<(int1==int2)<<std::endl;
+    // std::cout<<"Diffrent? "<<(int1!=int2)<<std::endl;
+
+    std::cout<<"int1: "<<int1.getDec()<<std::endl;
+    std::cout<<"int2: "<<int2.getDec()<<std::endl;
 
 
 

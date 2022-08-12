@@ -84,6 +84,58 @@ Int::Int(const Int& integer){
     bin_length=bin.binnum.size();
 }
 
+std::string& Int::loadPowOf2(int exp){
+    std::fstream file("powersof2.txt");
+    static std::string returned;
+    file.seekg(std::ios::beg);
+    for(int i=0; i < exp - 1; ++i){
+        file.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+    }
+
+    file >> returned;
+    return returned;
+}
+
+void Int::addDec(std::string& str1, std::string& str2){
+    int offs=(int)'0';
+    int temp=offs;
+    if(str1.size()>str2.size()){
+        str2.insert(0,str1.size()-str2.size(), '0');
+    }else if(str2.size()>str1.size()){
+        str1.insert(0,str2.size()-str1.size(), '0');
+    }
+    for(int i=str1.size()-1;i>=0;i--){
+        int foo=str1[i]-offs+str2[i]-offs+temp-offs;
+        str1[i]=foo%10+offs;
+        temp=foo/10+offs;
+        //cout<<foo<<"-"<<foo/10;
+
+        if(i==0 && temp-offs!=0){
+            //cout<<str1<<" "<<(temp-offs)<<endl;
+            str1.insert(0,1,temp);
+        }
+    }
+}
+
+std::string Int::getDec(){
+    std::string returned="";
+    if(bin.sign){
+        //*this=*this-Int("1");
+        reverse_num(bin.binnum);
+    }
+    
+    for(int i=bin.binnum.size();i>=0;i--){
+        if(bin.binnum[i]){
+            addDec(returned, loadPowOf2(bin.binnum.size()-i));
+        }
+        //std::cout<<"[ "<<i<<" ] { "<<bin.binnum[i]<<" } "<<returned<<std::endl;
+    }
+
+    if(bin.sign)returned.insert(0,1,'-');
+    return returned;
+}
+
+
 void Int::resize(size_t size, bool sign){
 
     if(size>bin.binnum.size()){
@@ -145,7 +197,7 @@ Int& Int::operator+(Int inte){
 Int& Int::operator-(Int inte){
     inte.bin.sign!=inte.bin.sign;
     reverse_num(inte.bin.binnum);
-    static Int returned=(*this)+inte;
+    Int returned=(*this)+inte;
 
     return *this+inte;
 }
