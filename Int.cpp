@@ -44,7 +44,6 @@ void Int::getBinary(string num){
 
     vector<bool>foo;
     while(num!=string(num.size(), '0')){
-        //cout<<num<<endl;
         foo.push_back(devide2(num));
     }
 
@@ -79,11 +78,6 @@ Int::Int(std::vector<bool>binary, bool sign){
     bin_length=bin.binnum.size();
 }
 
-// Int::Int(const Int& integer){
-//     bin=integer.bin;
-//     bin_length=bin.size();
-// }
-
 Int::Int(const Int& integer){
     bin.binnum=integer.bin.binnum;
     bin.sign=integer.bin.sign;
@@ -101,11 +95,7 @@ void Int::resize(size_t size, bool sign){
     }
 }
 
-Int Int::operator+(Int inte){
-    //std::cout<<"Size of the first Int: "<<bin.size()<<std::endl;
-    //std::cout<<"Size of the second Int: "<<inte.bin.size()<<std::endl;
-    //std::cout<<std::endl;
-
+Int& Int::operator+(Int inte){
     if(bin.binnum.size() > inte.bin.binnum.size()){
         inte.resize(bin.binnum.size(), bin.sign);
     }
@@ -113,86 +103,51 @@ Int Int::operator+(Int inte){
         resize(inte.bin.binnum.size(), bin.sign);
     }
 
-    Int returned(inte.bin.binnum, inte.bin.sign);
 
     bool temp=0;
 
-    std::cout<<"Size of the first Int: "<<bin.binnum.size()<<std::endl;
-    std::cout<<"Size of the second Int: "<<inte.bin.binnum.size()<<std::endl;
-    std::cout<<"Size of the returned Int: "<<returned.bin.binnum.size()<<std::endl;
-    std::cout<<std::endl;
 
-    int32_t abc=returned.bin.binnum.size()-1;
-
-    // if(bin[abc]==1 && inte.bin[abc]==1){
-    //     temp=1;
-    // }
-
-    for(int32_t i=returned.bin.binnum.size()-1;i>=0;i--){
+    for(int32_t i=bin.binnum.size()-1;i>=0;i--){
         if(bin.binnum[i]==true && inte.bin.binnum[i]==true){
             if(temp){
-                returned.bin.binnum[i]=true;
+                bin.binnum[i]=true;
                 temp=true;
             }else{
-                returned.bin.binnum[i]=false;
+                bin.binnum[i]=false;
                 temp=true;
             }
         }
         else if((bin.binnum[i]==true && inte.bin.binnum[i]==false) ||
                 (bin.binnum[i]==false && inte.bin.binnum[i]==true)){
             if(temp){
-                returned.bin.binnum[i]=false;
+                bin.binnum[i]=false;
                 temp=true;
             }else{
-                returned.bin.binnum[i]=true;
+                bin.binnum[i]=true;
                 temp=false;
             }
         }
         else if(bin.binnum[i]==false && inte.bin.binnum[i]==false){
             if(temp){
-                returned.bin.binnum[i]=true;
+                bin.binnum[i]=true;
                 temp=false;
             }else{
-                returned.bin.binnum[i]=false;
+                bin.binnum[i]=false;
                 temp=false;
             }
         }
-        //std::cout<<i<<std::endl;
     }
-    //for(auto i:returned.bin)std::cout<<"["<<i<<"]\n";
-    //std::cout<<"TU JESTEM";
-    return returned;
+
+
+    return *this;
 }
 
-Int Int::operator-(Int inte){
-    if(bin.binnum.size() > inte.bin.binnum.size()){
-        inte.resize(bin.binnum.size(), bin.sign);
-    }
-    else if(bin.binnum.size() < inte.bin.binnum.size()){
-        resize(inte.bin.binnum.size(), bin.sign);
-    }
-
-    Int returned(inte.bin.binnum, inte.bin.sign);
-
-    bool temp=0;
-
-    std::cout<<"Size of the first Int: "<<bin.binnum.size()<<std::endl;
-    std::cout<<"Size of the second Int: "<<inte.bin.binnum.size()<<std::endl;
-    std::cout<<"Size of the returned Int: "<<returned.bin.binnum.size()<<std::endl;
-    std::cout<<std::endl;
-
-    int32_t abc=returned.bin.binnum.size()-1;
-
-    // if(bin[abc]==1 && inte.bin[abc]==1){
-    //     temp=1;
-    // }
-
+Int& Int::operator-(Int inte){
     inte.bin.sign!=inte.bin.sign;
     reverse_num(inte.bin.binnum);
+    static Int returned=(*this)+inte;
 
-    return (*this)+inte;
-
-
+    return *this+inte;
 }
 
 Int Int::operator*(Int integer){

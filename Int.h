@@ -30,13 +30,22 @@ class Int{
     void getBinary(string num);
 
     public:  
-    Bin bin;
+    mutable Bin bin;
     size_t bin_length;
     size_t dec_length;
-    Int operator+(Int integer);
-    Int operator-(Int integer);
+    Int& operator+(Int integer);
+    Int& operator-(Int integer);
+
+    //TODO:
     Int operator*(Int inte);
     Int operator/(Int inte);
+    bool operator>(Int integer);
+    bool operator<(Int integer);
+    bool operator>=(Int integer);
+    bool operator<=(Int integer);
+    bool operator==(Int integer);
+    bool operator!=(Int integer);
+    //
     
     void resize(size_t size, bool sign);
     vector<bool>getBin();
