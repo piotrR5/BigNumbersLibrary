@@ -9,7 +9,7 @@
 int main(){
 
 
-    Int i("100");
+    Int i("4");
     std::cout<<i.getBin()<<std::endl<<i<<std::endl;
 
 

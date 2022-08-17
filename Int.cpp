@@ -31,12 +31,28 @@ string Int::getDec(){
         reverse(bin);
     }
 
-    string returned="";
+    string returned="0";
+    string temp="1";
+    string power;
 
-    for(size_t i=1;i<bin.size();i++){
-        if(i)_add(returned, pow2(i, returned));
+    for(size_t i=0;i<bin.size();i++){
+        if(bin[i]){
+            power="1";
+            int foo=i-bin.size()+1;
+            while(foo-->0){
+                power=_add(power, power);
+                std::cout<<foo<<" : "<<power<<std::endl;
+            }
+            
+            std::cout<<i<<" "<<returned<<std::endl;
+        }
+        returned=_add(returned, power);
+        power="0";
+        
     }
-
+    if(sign){
+        returned.insert(0,1,'-');
+    }
     return returned;
 }
 
@@ -88,7 +104,7 @@ void Int::reverse(std::vector<bool>bin)
     *this=temp+Int("1");
 }
 
-void Int::_add(string& s1, string s2){
+std::string Int::_add(string s1, string s2){
     int offs=(int)'0';
     int temp=offs;
     for(int i=s1.size()-1;i>=0;i--){
@@ -102,18 +118,7 @@ void Int::_add(string& s1, string s2){
             s1.insert(0,1,temp);
         }
     }
-}
-
-string Int::pow2(size_t power, string& num){
-    string returned="";
-    _add(num,num);
-    //cout<<"["<<num<<endl;
-    //cout<<num<<endl;
-    returned+=num;
-    if(power>0){
-        pow2(--power, num);
-    }
-    return returned;
+    return s1;
 }
 
 
@@ -311,76 +316,6 @@ Int::Int()
     bin=vector<bool> (64,false);
 }
 
-///////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////
-
-// std::ostream &operator<<(std::ostream &os, Int i){
-//     Int foo(i);
-//     string s=foo.getDec();
-//     os<<s;
-//     return os;
-// }
-
-// std::ostream &operator<<(std::ostream &os, Bin bin){
-//     //if(bin.binnum[0])os<<'-';
-//     for(bool i:bin.binnum)os<<i;
-//     return os;
-// }
-
-// Bin Int::getBin(){
-//     return bin;
-// }
-
-// size_t Int::getBinLength(){
-//     return bin_length;
-// }
-
-// size_t Int::getDecLength(){
-//     return dec_length;
-// }
-
-
-// //////////////////////////////////////////////reversing numbers sign
-// void Int::reverse_num(vector<bool> &foo){
-//     bool sign=foo[0];
-//     for(auto i=foo.begin(); i!=foo.end(); i++) (*i).flip();
-//     Int int1(foo, 0), int2("1");
-//     Int ret;
-//     if(sign){
-//         ret=int1-int2;
-//     }else{
-//         ret=int1+int2;
-//     }
-//     foo=ret.bin.binnum;
-//     //std::cout<<"["<<ret.bin<<"]"<<std::endl;
-// }
-// //////////////////////////////////////////////reversing numbers sign
-
-// //////////////////////////////////////////////resizing number (binary)
-// void Int::resize(size_t size){
-//     bool sign=bin.binnum[0];
-//     if(size>bin.binnum.size()){
-//         while(bin.binnum.size()<size){
-//             bin.binnum.emplace(bin.binnum.begin()+1, sign);
-            
-//         }
-//     }
-// }
-// //////////////////////////////////////////////resizing number (binary)
-
-// /////////////////////////////////////////////binary to decimal
-// std::string& Int::loadPowOf2(int exp){
-//     std::fstream file("powersof2.txt");
-//     static std::string returned;
-//     file.seekg(std::ios::beg);
-//     for(int i=0; i < exp - 1; ++i){
-//         file.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
-//     }
-
-//     file >> returned;
-//     return returned;
-// }
 
 // void Int::addDec(std::string& str1, std::string& str2){
 //     int offs=(int)'0';
@@ -471,145 +406,3 @@ Int::Int()
 
 //     bin_length=bin.binnum.size();
 // }
-// ///////////////////////////////////string to bin//////////////
-
-// Int::Int(std::vector<bool>binary, bool sign){
-//     bin.binnum=binary;
-//     bin.binnum[0]=sign;
-//     //std::cout<<bin<<"]"<<std::endl;
-//     bin_length=bin.binnum.size();
-// }
-
-// Int::Int(Int& integer){
-//     *this=integer;
-// }
-
-// Int::Int(){
-//     bin.binnum=vector<bool>(64,false);
-//     bin_length=64;
-// }
-
-// Int Int::operator+(Int integer){
-    
-//     Int inte(integer);
-    
-//     if(bin.binnum.size() > inte.bin.binnum.size()){
-//         inte.resize(bin.binnum.size());
-//     }
-//     else if(bin.binnum.size() < inte.bin.binnum.size()){
-//         resize(inte.bin.binnum.size());
-//     }
-
-//     Int returned(*this);
-
-//     if(returned.bin.binnum[0] !=inte.bin.binnum[0]){
-//         returned.reverse_num(returned.bin.binnum);
-//     }
-
-//     bool temp=0;
-//     for(int32_t i=returned.bin.binnum.size()-1;i>1;i--){
-//         if(returned.bin.binnum[i]==true && inte.bin.binnum[i]==true){
-//             if(temp){
-//                 returned.bin.binnum[i]=true;
-//                 temp=true;
-//             }else{
-//                 returned.bin.binnum[i]=false;
-//                 temp=true;
-//             }
-//         }
-//         else if((returned.bin.binnum[i]==true && inte.bin.binnum[i]==false) ||
-//                 (returned.bin.binnum[i]==false && inte.bin.binnum[i]==true)){
-//             if(temp){
-//                 returned.bin.binnum[i]=false;
-//                 temp=true;
-//             }else{
-//                 returned.bin.binnum[i]=true;
-//                 temp=false;
-//             }
-//         }
-//         else if(returned.bin.binnum[i]==false && inte.bin.binnum[i]==false){
-//             if(temp){
-//                 returned.bin.binnum[i]=true;
-//                 temp=false;
-//             }else{
-//                 returned.bin.binnum[i]=false;
-//                 temp=false;
-//             }
-//         }
-//     }
-//     if(returned.bin.binnum[1] && inte.bin.binnum[1]){
-//         returned.resize(returned.bin.binnum.size()*2);
-//         inte.resize(inte.bin.binnum.size()*2);
-//         if(temp){
-//             returned.bin.binnum[returned.bin.binnum.size()/2].flip();
-//         }else{
-//             returned.bin.binnum[returned.bin.binnum.size()/2].flip();
-//             returned.bin.binnum[returned.bin.binnum.size()/2+1].flip();
-//         }
-//     }else if(returned.bin.binnum[1] && !inte.bin.binnum[1] ||
-//              !returned.bin.binnum[1] && inte.bin.binnum[1]){
-//         returned.resize(returned.bin.binnum.size()*2);
-//         inte.resize(inte.bin.binnum.size()*2);
-//         if(temp){
-//             returned.bin.binnum[returned.bin.binnum.size()/2].flip();
-//             returned.bin.binnum[returned.bin.binnum.size()/2+1].flip();
-//         }
-//     }else if(!returned.bin.binnum[1] && !inte.bin.binnum[0]){
-//         if(temp)returned.bin.binnum[1].flip();
-//     }
-//     return returned;
-// }
-
-// Int Int::operator-(Int inte){
-//     inte.bin.binnum[0]!=inte.bin.binnum[0];
-//     reverse_num(inte.bin.binnum);
-//     Int returned=(*this)+inte;
-
-//     return *this+inte;
-// }
-
-// Int Int::operator*(Int integer){
-//     return *this;
-// }
-
-// Int Int::operator/(Int integer){
-//     return *this;
-// }
-
-// bool Int::operator>(Int integer){
-//     return false;
-// }
-
-// bool Int::operator<(Int integer){
-//     return false;
-// }
-
-// bool Int::operator>=(Int integer){
-//     return false;
-// }
-
-// bool Int::operator<=(Int integer){
-//     return false;
-// }
-
-// bool Int::operator==(Int integer){
-//     //if(bin.binnum[0] != integer.bin.binnum[0])return false;
-
-
-//     if(bin.binnum.size() > integer.bin.binnum.size()){
-//         integer.resize(bin.binnum.size());
-//     }
-//     else if(bin.binnum.size() < integer.bin.binnum.size()){
-//         resize(integer.bin.binnum.size());
-//     }
-
-//     for(int i=0;i<bin.binnum.size();i++){
-//         if(bin.binnum[i]!=integer.bin.binnum[i])return false;
-//     }
-//     return true;
-// }
-
-// bool Int::operator!=(Int integer){
-//     return !(*this==integer);
-// }
-

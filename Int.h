@@ -30,7 +30,7 @@ class Int{
 
     //generowanie liczby decymalnej:
     std::string pow2(size_t power, std::string& num);
-    void _add(std::string& s1, std::string s2);
+    std::string _add(std::string s1, std::string s2);
 
 public:
 
