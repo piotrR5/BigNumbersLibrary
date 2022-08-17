@@ -7,6 +7,7 @@ using std::string;
 ///////////////////////////////////////////////////////////////////////
 
 std::ostream& operator<<(std::ostream& os, Int i){
+    os<<i.getDec();
     return os;
 }
 
@@ -22,6 +23,21 @@ bool Int::at(size_t index){
 bool Int::at(size_t index, bool value){
     bin[index]=value;
     return bin[index];
+}
+
+string Int::getDec(){
+    bool sign=bin[0];
+    if(sign){
+        reverse(bin);
+    }
+
+    string returned="";
+
+    for(size_t i=1;i<bin.size();i++){
+        if(i)_add(returned, pow2(i, returned));
+    }
+
+    return returned;
 }
 
 const std::vector<bool>& Int::getBin(){
@@ -71,6 +87,35 @@ void Int::reverse(std::vector<bool>bin)
     Int temp(bin);
     *this=temp+Int("1");
 }
+
+void Int::_add(string& s1, string s2){
+    int offs=(int)'0';
+    int temp=offs;
+    for(int i=s1.size()-1;i>=0;i--){
+        int foo=s1[i]-offs+s2[i]-offs+temp-offs;
+        s1[i]=foo%10+offs;
+        temp=foo/10+offs;
+        //cout<<foo<<"-"<<foo/10;
+
+        if(i==0 && temp-offs!=0){
+            //cout<<str1<<" "<<(temp-offs)<<endl;
+            s1.insert(0,1,temp);
+        }
+    }
+}
+
+string Int::pow2(size_t power, string& num){
+    string returned="";
+    _add(num,num);
+    //cout<<"["<<num<<endl;
+    //cout<<num<<endl;
+    returned+=num;
+    if(power>0){
+        pow2(--power, num);
+    }
+    return returned;
+}
+
 
 ///////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////
@@ -184,7 +229,7 @@ Int& Int::operator-=(Int i){
 
 bool Int::isZero(){
     for(auto x:bin)if(x)return 0;
-    else return 1;
+    return 1;
 }
 bool Int::operator==(Int i){
     if(i.bin.size()<bin.size())

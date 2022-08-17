@@ -9,10 +9,8 @@
 int main(){
 
 
-    for(Int i("0");;i+=Int("20")){
-        std::cout<<i.getBin()<<std::endl;
-    }
-
+    Int i("100");
+    std::cout<<i.getBin()<<std::endl<<i<<std::endl;
 
 
     return 0;

@@ -27,6 +27,11 @@ class Int{
     void resize(int goal_size, bool sign);
     void reverse(std::vector<bool>bin);
 
+
+    //generowanie liczby decymalnej:
+    std::string pow2(size_t power, std::string& num);
+    void _add(std::string& s1, std::string s2);
+
 public:
 
     bool at(size_t index);
@@ -35,6 +40,8 @@ public:
     friend std::ostream& operator<<(std::ostream& os, Int i);
     
     const std::vector<bool>& getBin();
+
+    std::string getDec();
 
     //Int operator=(Int i);
     Int operator+(Int i);
