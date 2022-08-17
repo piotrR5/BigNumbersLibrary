@@ -52,7 +52,7 @@ public:
 
 
     // i logiczne
-
+    bool isZero();
     bool operator==(Int i);
     bool operator!=(Int i);
     bool operator<(Int i);

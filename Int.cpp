@@ -182,6 +182,42 @@ Int& Int::operator-=(Int i){
 
 //TODO
 
+bool Int::isZero(){
+    for(auto x:bin)if(x)return 0;
+    else return 1;
+}
+bool Int::operator==(Int i){
+    if(i.bin.size()<bin.size())
+    {
+        i.resize(bin.size(),i.bin[0]);
+    }
+    else if(i.bin.size()>bin.size())
+    {
+       resize(i.bin.size(),bin[0]);
+    }
+
+    for(size_t x=0;x<bin.size();x++){
+        if(bin[x]!=i.bin[x])return 0;
+    }
+    return true;
+}
+bool Int::operator!=(Int i){
+    return !(*this==i);
+}
+bool Int::operator<(Int i){
+    if((*this-i).bin[0])return true;
+}
+bool Int::operator<=(Int i){
+    if((*this-i).bin[0] || (*this-i).isZero())return true;
+}
+
+bool Int::operator>(Int i){
+    if((*this-i).bin[0])return false;
+}
+bool Int::operator>=(Int i){
+    if((*this-i).bin[0] || (*this-i).isZero())return true;
+}
+
 ///////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////
