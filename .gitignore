@@ -1,6 +1,6 @@
 *.o
 .directory/
 documentation
-.vscode/
+.vscode
 .vscode/tasks.json
 .vscode/settings.json
