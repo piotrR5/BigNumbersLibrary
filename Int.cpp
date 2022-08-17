@@ -206,16 +206,20 @@ bool Int::operator!=(Int i){
 }
 bool Int::operator<(Int i){
     if((*this-i).bin[0])return true;
+    else return false;
 }
 bool Int::operator<=(Int i){
     if((*this-i).bin[0] || (*this-i).isZero())return true;
+    else return false;
 }
 
 bool Int::operator>(Int i){
     if((*this-i).bin[0])return false;
+    else return true;
 }
 bool Int::operator>=(Int i){
-    if((*this-i).bin[0] || (*this-i).isZero())return true;
+    if((*this-i).bin[0])return false;
+    else return true;
 }
 
 ///////////////////////////////////////////////////////////////////////
