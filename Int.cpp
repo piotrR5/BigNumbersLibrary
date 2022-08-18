@@ -26,33 +26,25 @@ bool Int::at(size_t index, bool value){
 }
 
 string Int::getDec(){
-    bool sign=bin[0];
-    if(sign){
-        reverse(bin);
-    }
-
     string returned="0";
-    string temp="1";
-    string power;
+    string powered="1";
 
-    for(size_t i=0;i<bin.size();i++){
+    size_t indexOfLastPower=bin.size()-1;
+    bool sign=(bin[0]?1:0);
+    if(sign)reverse(bin);
+    for(size_t i=bin.size()-1;i>0;i--){
         if(bin[i]){
-            power="1";
-            int foo=i-bin.size()+1;
-            while(foo-->0){
-                power=_add(power, power);
-                std::cout<<foo<<" : "<<power<<std::endl;
-            }
+            pow2(indexOfLastPower-i, powered);
+            _add(returned, powered);
+            indexOfLastPower=i;
             
-            std::cout<<i<<" "<<returned<<std::endl;
         }
-        returned=_add(returned, power);
-        power="0";
-        
     }
+
     if(sign){
         returned.insert(0,1,'-');
     }
+
     return returned;
 }
 
@@ -73,7 +65,7 @@ bool Int::devide2(string& n)
 {
     string ret(n.size(),'0');
     bool returned = (n[n.size()-1]-48)%2;
-    for(int i=1; i<n.size(); i++)
+    for(size_t i=1; i<n.size(); i++)
     {
         ret[i]=((n[i-1]-48)*10+n[i]-48)/2+48;
         n[i]=(n[i]-48)%2+48;
@@ -86,7 +78,7 @@ bool Int::devide2(string& n)
     return returned;
 }
 
-void Int::resize(int goal_size, bool sign)
+void Int::resize(size_t goal_size, bool sign)
 {
     while(bin.size()<goal_size)
     {
@@ -104,21 +96,50 @@ void Int::reverse(std::vector<bool>bin)
     *this=temp+Int("1");
 }
 
-std::string Int::_add(string s1, string s2){
-    int offs=(int)'0';
-    int temp=offs;
-    for(int i=s1.size()-1;i>=0;i--){
-        int foo=s1[i]-offs+s2[i]-offs+temp-offs;
-        s1[i]=foo%10+offs;
-        temp=foo/10+offs;
-        //cout<<foo<<"-"<<foo/10;
+void Int::_add(string& s1, string s2){
+    uint8_t offset='0';
+    for(auto& i:s1)i-=offset;
+    for(auto& i:s2)i-=offset;
 
-        if(i==0 && temp-offs!=0){
-            //cout<<str1<<" "<<(temp-offs)<<endl;
-            s1.insert(0,1,temp);
+    uint8_t temp=0;
+    if(s1.size()!=s2.size()){
+        if(s1.size()<s2.size()){
+            while(s1.size()<s2.size()){
+                s1.insert(0,1,0);
+            }
+        }
+        else{
+            while(s1.size()>s2.size()){
+                s2.insert(0,1,0);
+            }
         }
     }
-    return s1;
+    
+    size_t index=s1.length()-1;
+
+    for(;index>=0;index--){
+        uint8_t foo=s1[index]+s2[index]+temp;
+
+        s1[index]=foo%10;
+        temp=foo/10;
+
+        if(index==0 && temp!=0){
+            s1.insert(0,1,temp);
+            for(auto& i:s1)i+=offset;
+            return;
+        }else if(index==0){
+            for(auto& i:s1)i+=offset;
+            return;
+        }
+    }
+
+    for(auto& i:s1)i+=offset;
+}
+
+void Int::pow2(size_t power, std::string& num){
+    while(power--){
+        _add(num,num);
+    }
 }
 
 
@@ -295,9 +316,7 @@ Int::Int(std::string decimal)
         //for(auto i:b)std::cout<<i<<std::endl; 
     }
     bin=b;
-
-    //resize(std::max(64.0, pow(2, log2(bin.size())+1)), sign);
-    resize(64, false);
+    resize(std::max(128, (int)pow(2,log2(b.size()))), false);
     if(sign)reverse(bin);
 }
 
@@ -315,94 +334,3 @@ Int::Int()
 {
     bin=vector<bool> (64,false);
 }
-
-
-// void Int::addDec(std::string& str1, std::string& str2){
-//     int offs=(int)'0';
-//     int temp=offs;
-//     if(str1.size()>str2.size()){
-//         str2.insert(0,str1.size()-str2.size(), '0');
-//     }else if(str2.size()>str1.size()){
-//         str1.insert(0,str2.size()-str1.size(), '0');
-//     }
-//     for(int i=str1.size()-1;i>=0;i--){
-//         int foo=str1[i]-offs+str2[i]-offs+temp-offs;
-//         str1[i]=foo%10+offs;
-//         temp=foo/10+offs;
-//         //cout<<foo<<"-"<<foo/10;
-
-//         if(i==0 && temp-offs!=0){
-//             //cout<<str1<<" "<<(temp-offs)<<endl;
-//             str1.insert(0,1,temp);
-//         }
-//     }
-// }
-
-// std::string Int::getDec(){
-//     std::string returned="";
-//     if(bin.binnum[0]){
-//         reverse_num(bin.binnum);
-//     }
-
-//     //std::cout<<bin<<std::endl;
-
-//     for(int i=bin.binnum.size()-1;i>0;i--){
-//         if(bin.binnum[i]){
-//             addDec(returned, loadPowOf2(bin.binnum.size()-i));
-//         }
-//     }
-
-//     if(bin.binnum[0])returned.insert(0,1,'-');
-//     return returned;
-// }
-// /////////////////////////////////////////////binary to decimal
-
-// ///////////////////////////////////string to bin//////////////
-// bool Int::devide2(string& n){
-//     string ret(n.size(),'0');
-//     bool returned = (n[n.size()-1]-48)%2;
-//     for(int i=1;i<n.size();i++){
-//         ret[i]=((n[i-1]-48)*10+n[i]-48)/2+48;
-//         n[i]=(n[i]-48)%2+48;
-//     }
-    
-//     if(n.size()==1){
-//         n[0]=(n[0]-48)/2+48;
-//         return returned;
-//     }
-    
-//     n=ret;
-//     return returned;
-// }
-
-// Int::Int(string num){
-//     bool sign=false;
-//     if(num[0]=='-')sign=true;
-//     //std::cout<<"osdjfsd"<<sign<<std::endl;
-//     vector<bool>foo;
-//     if(sign){
-//         num.erase(num.begin(), num.begin()+1);
-//         foo.push_back(sign);
-//     }else{
-//         foo.push_back(sign);
-//     }
-
-//     while(num!=string(num.size(), '0')){
-//         foo.emplace(foo.begin()+1, devide2(num));
-//     }
-
-//     bin.binnum=foo;
-
-//     if(sign){
-//         reverse_num(foo);
-//     }
-
-//     double power=log2(bin.binnum.size());
-//     size_t binSize=bin.binnum.size();
-
-//     while(bin.binnum.size()< std::max(pow(2, power)-binSize,64.0)){
-//         bin.binnum.emplace(bin.binnum.begin()+1, sign);
-//     }
-
-//     bin_length=bin.binnum.size();
-// }

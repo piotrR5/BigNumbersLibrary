@@ -7,10 +7,11 @@
 
 
 int main(){
+std::ios_base::sync_with_stdio(false);
 
-
-    Int i("4");
-    std::cout<<i.getBin()<<std::endl<<i<<std::endl;
+    for(Int i("5");i<Int("1000000000000000000");i+=i){
+        std::cout<<i.getBin()<<std::endl;
+    }
 
 
     return 0;

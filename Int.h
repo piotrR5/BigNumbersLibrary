@@ -24,13 +24,13 @@ class Int{
     
 
     bool devide2(std::string& n);
-    void resize(int goal_size, bool sign);
+    void resize(size_t goal_size, bool sign);
     void reverse(std::vector<bool>bin);
 
 
     //generowanie liczby decymalnej:
-    std::string pow2(size_t power, std::string& num);
-    std::string _add(std::string s1, std::string s2);
+    void pow2(size_t power, std::string& num);
+    void _add(std::string& s1, std::string s2);
 
 public:
 
