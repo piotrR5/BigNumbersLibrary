@@ -316,7 +316,7 @@ Int::Int(std::string decimal)
         //for(auto i:b)std::cout<<i<<std::endl; 
     }
     bin=b;
-    resize(std::max(128, (int)pow(2,log2(b.size()))), false);
+    resize(std::max(128, (int)pow(2,ceil(log2(b.size())))), false);
     if(sign)reverse(bin);
 }
 
